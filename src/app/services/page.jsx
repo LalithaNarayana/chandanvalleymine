@@ -7,6 +7,7 @@ import { PageLoader } from "../../components/PageLoader";
 import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
 import { ServiceIcon } from "../../components/ServiceIcon";
+import { normalizeLink } from "../../lib/utils";
 
 // Animated Counter Component
 const AnimatedCounter = ({ value, duration = 1.5 }) => {
@@ -233,17 +234,9 @@ export default function UnifiedServicesPage() {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="flex flex-col sm:flex-row gap-4 items-center justify-center pt-2"
             >
-              {hero.primaryButton?.text && (
-                <a
-                  href={hero.primaryButton.url}
-                  className="w-full sm:w-auto text-center bg-[#0B5D3B] text-white hover:bg-[#98FB98] hover:text-[#0B5D38] border border-[#0B5D3B] hover:border-[#98FB98] font-bold px-8 py-4 rounded-full shadow-lg hover:scale-105 transition-all duration-300 text-xs uppercase tracking-wider"
-                >
-                  {hero.primaryButton.text}
-                </a>
-              )}
               {hero.secondaryButton?.text && (
                 <a
-                  href={hero.secondaryButton.url}
+                  href={normalizeLink(hero.secondaryButton.url)}
                   className="w-full sm:w-auto text-center bg-transparent border border-white hover:bg-[#98FB98] hover:border-[#98FB98] hover:text-[#0B5D38] font-bold px-8 py-4 rounded-full hover:scale-105 transition-all duration-300 text-xs uppercase tracking-wider"
                 >
                   {hero.secondaryButton.text}
@@ -445,7 +438,7 @@ export default function UnifiedServicesPage() {
           </div>
 
           <div className="max-w-4xl mx-auto z-10 relative space-y-8 flex flex-col items-center">
-            <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-extrabold leading-[1.2]">
+            <h2 className="font-playfair  text-3xl sm:text-4xl md:text-5xl font-extrabold leading-[1.2]">
               {ctaSection.heading}
             </h2>
             <p className="text-white/80 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed font-light">
@@ -453,7 +446,7 @@ export default function UnifiedServicesPage() {
             </p>
             <div className="pt-4">
               <a
-                href={ctaSection.buttonUrl}
+                href={normalizeLink(ctaSection.buttonUrl)}
                 className="bg-[#D4AF37] hover:bg-[#98FB98] text-[#0B5D38] font-bold px-10 py-5 rounded-full shadow-2xl hover:scale-105 transition-all duration-300 text-xs uppercase tracking-wider"
               >
                 {ctaSection.buttonText}

@@ -6,6 +6,7 @@ import { PageLoader } from "../components/PageLoader";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { ServiceIcon } from "../components/ServiceIcon";
+import { normalizeLink } from "../lib/utils";
 
 // ==========================================================
 // ANIMATION VARIANTS (Inlined)
@@ -73,170 +74,6 @@ const defaultViewport = {
   amount: 0.2,
 };
 
-// Fallbacks in case CMS is not populated yet or fetch fails
-const FALLBACK_DATA = {
-  hero: {
-    bgImage: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2000&auto=format&fit=crop",
-    bgImages: [
-      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=2000&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=2000&auto=format&fit=crop",
-    ],
-    smallHeading: "RERA & Town Planning Approved",
-    mainHeading: "Own Your Premium Sandalwood Farm Plot",
-    description: "Invest in nature with professionally managed sandalwood plantations that deliver long-term value, tax-free agricultural returns, and generational land security.",
-    primaryBtnText: "Book Site Visit",
-    primaryBtnUrl: "/contact",
-    secondaryBtnText: "Explore Projects",
-    secondaryBtnUrl: "/projects",
-  },
-  stats: [
-    { title: "Sandalwood Saplings", value: "40+", icon: "Trees", sortOrder: 1 },
-    { title: "Compounding Growth", value: "10-12x", icon: "TrendingUp", sortOrder: 2 },
-    { title: "Tax-Free ROI Potential", value: "₹2-3 Cr", icon: "Coins", sortOrder: 3 },
-  ],
-  trustCards: [
-    {
-      title: "Premium Plantation",
-      description: "High-yielding Mysore Sandalwood (Santalum Album) planted alongside host trees using automated precision agronomy.",
-      icon: "Trees",
-    },
-    {
-      title: "Secure Investment",
-      description: "100% clear legal title, individual clear deed registration, fencing, and round-the-clock security monitoring.",
-      icon: "ShieldCheck",
-    },
-    {
-      title: "High ROI Potential",
-      description: "Sandalwood is renowned as 'Liquid Gold', offering exponential capital growth and tax-free agricultural returns.",
-      icon: "TrendingUp",
-    },
-  ],
-  aboutPreview: {
-    image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=1200&auto=format&fit=crop",
-    smallTitle: "Heritage & Excellence",
-    heading: "Nurturing Valued Sandalwood Legacies Across Generations",
-    description: "Chandan Valley Farms offers ultra-premium managed farmland that matches secure asset class attributes with ecological sustainability. Our botanists ensure optimal plantation conditions to guarantee premium heartwood yields.",
-    mission: "To deliver transparent, high-yielding green investments that empower our clients while contributing to organic agro-forestry.",
-    vision: "To become the gold standard of managed farmland in India, balancing ecology with wealth generation.",
-    btnText: "Learn More About Us",
-    btnUrl: "/about",
-  },
-  whyInvest: {
-    smallTitle: "Sustainable Returns",
-    heading: "Why Invest in Sandalwood?",
-  },
-  investmentBenefits: [
-    {
-      icon: "Leaf",
-      title: "Nature Investment",
-      description: "Own physical fertile land with lush green cover while reducing your carbon footprint through sustainable forestry."
-    },
-    {
-      icon: "Coins",
-      title: "Passive Income",
-      description: "Enjoy inter-crop yields (sandalwood + timber/fruits) providing dual cash flows without day-to-day effort."
-    },
-    {
-      icon: "Globe",
-      title: "Eco Friendly",
-      description: "Enrich soil biodiversity, create wildlife corridors, and promote organic agro-forestry for future generations."
-    },
-    {
-      icon: "Lock",
-      title: "Secure Asset",
-      description: "Land ownership is an inflation-proof tangible asset backed by legal clear-title deed registrations."
-    },
-    {
-      icon: "BarChart3",
-      title: "Growing Demand",
-      description: "Global demand for sandalwood oil and heartwood far exceeds supply, ensuring premium pricing at harvest."
-    },
-    {
-      icon: "Sparkles",
-      title: "Long-Term Appreciation",
-      description: "Benefit from compounding asset growth: escalating land value combined with mature heartwood valuation."
-    }
-  ],
-  featuredProject: {
-    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600&auto=format&fit=crop",
-    title: "Chandan Valley Farms - Phase 1",
-    tagline: "Ultra-Premium Managed Sandalwood Estate",
-    location: "Chikkaballapur Highway, Bengaluru North Extension",
-    area: "28 Acres",
-    plotSize: "5,000 sq. ft. to 10,000 sq. ft.",
-    price: "₹24.99 Lakhs onwards",
-    expectedRoi: "₹2 - 3 Cr in 10-12 Years",
-    btnText: "Schedule Site Visit",
-    btnUrl: "/contact",
-  },
-  highlightsSection: {
-    smallTitle: "World-Class Amenities",
-    heading: "Estate Highlights & Infrastructure",
-  },
-  highlights: [
-    { icon: "Grid", title: "196 Premium Plots", subtitle: "RERA & Town Planning Compliant Layout", sortOrder: 1 },
-    { icon: "Compass", title: "28 Acres Total Estate", subtitle: "Spacious Green Gated Sanctuary", sortOrder: 2 },
-    { icon: "Droplets", title: "Drip Irrigation", subtitle: "Fully Automated Israeli Drip Networks", sortOrder: 3 },
-    { icon: "Road", title: "Internal Roads", subtitle: "30ft Wide Blacktop Roads with Solar Lights", sortOrder: 4 },
-    { icon: "Zap", title: "Electricity Network", subtitle: "Underground Power & Solar Streetlights", sortOrder: 5 },
-    { icon: "GlassWater", title: "Water Supply", subtitle: "24/7 Borewell & Water Harvesting Tanks", sortOrder: 6 },
-    { icon: "Footprints", title: "Walking Track", subtitle: "1.5 km Tree-Lined Nature Promenade", sortOrder: 7 },
-    { icon: "UserCheck", title: "Professional Management", subtitle: "12-Year End-to-End Plantation Maintenance", sortOrder: 8 },
-  ],
-  processSection: {
-    smallTitle: "Step-by-Step",
-    heading: "Our Investment Process",
-  },
-  processSteps: [
-    { step: "01", title: "Choose Plot", description: "Browse master plan layout, select your preferred plot size & direction.", details: "Choose from 5,000 to 10,000 sq. ft. prime units with optimal solar orientation." },
-    { step: "02", title: "Site Visit", description: "Experience the pristine estate firsthand with our VIP luxury transport.", details: "Guided tour by senior agronomy experts and legal documentation officers." },
-    { step: "03", title: "Documentation", description: "Transparent legal agreement with full title check and clear ownership deed.", details: "Government registered sale deed with 100% legal clearance & encapsulation." },
-    { step: "04", title: "Ownership", description: "Receive your plot passbook, live updates, and relaxed passive ROI.", details: "Track tree growth via mobile updates, visit your farm anytime." },
-  ],
-  testimonials: [
-    {
-      name: "Rajesh V. Sharma",
-      role: "Senior Tech Executive",
-      location: "Bengaluru",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop",
-      rating: 5,
-      quote: "Investing in Chandan Valley Farms has been my best wealth decision. The site management is world-class, and seeing 40+ healthy sandalwood trees on my plot is deeply satisfying.",
-      plotOwned: "Plot #42 (10,000 sq.ft)",
-    },
-    {
-      name: "Dr. Ananya Hegde",
-      role: "Cardiologist",
-      location: "Mysore",
-      avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop",
-      rating: 5,
-      quote: "The legal clarity and transparent execution amazed me. Everything from drip lines to security fence is meticulously maintained. It's true peace of mind.",
-      plotOwned: "Plot #18 (5,000 sq.ft)",
-    },
-    {
-      name: "Vikram & Neha Reddy",
-      role: "NRI Investors",
-      location: "Singapore",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop",
-      rating: 5,
-      quote: "Living overseas, we needed a completely hands-off green asset. Chandan Valley's team provides periodic photo/video updates on tree health. Exceptional professionalism!",
-      plotOwned: "Plot #88 (10,000 sq.ft)",
-    },
-  ],
-  visibility: {
-    showHero: true,
-    showStats: true,
-    showTrust: true,
-    showAbout: true,
-    showWhyInvest: true,
-    showFeatured: true,
-    showHighlights: true,
-    showProcess: true,
-    showTestimonials: true,
-    showBlogs: true,
-  }
-};
-
 export default function Home() {
   const [cmsData, setCmsData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -273,15 +110,15 @@ export default function Home() {
     loadBlogs();
   }, []);
 
-  const active = cmsData || FALLBACK_DATA;
-  const currentTestimonial = active.testimonials?.[currentIndex] || FALLBACK_DATA.testimonials[0];
+  const active = cmsData || {};
+  const currentTestimonial = active.testimonials?.[currentIndex];
 
   const heroBgImages =
     active.hero?.bgImages && active.hero.bgImages.length > 0
       ? active.hero.bgImages
       : active.hero?.bgImage
       ? [active.hero.bgImage]
-      : FALLBACK_DATA.hero.bgImages;
+      : [];
 
   useEffect(() => {
     if (heroBgImages.length <= 1) return;
@@ -357,7 +194,7 @@ export default function Home() {
                   <motion.a
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.98 }}
-                    href={active.hero?.primaryBtnUrl}
+                    href={normalizeLink(active.hero?.primaryBtnUrl)}
                     className="bg-[#D9A321] text-[#0F9D6D] hover:bg-amber-300 font-bold px-8 py-4 rounded-full text-center shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-2 group"
                   >
                     <span>{active.hero?.primaryBtnText}</span>
@@ -369,7 +206,7 @@ export default function Home() {
                   <motion.a
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.98 }}
-                    href={active.hero?.secondaryBtnUrl}
+                    href={normalizeLink(active.hero?.secondaryBtnUrl)}
                     className="border-2 border-white/60 hover:border-[#D9A321] hover:text-[#D9A321] text-white font-semibold px-8 py-4 rounded-full text-center backdrop-blur-sm bg-white/5 hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2"
                   >
                     <span>{active.hero?.secondaryBtnText}</span>
@@ -384,7 +221,7 @@ export default function Home() {
                 animate="visible"
                 className="lg:col-span-5 flex flex-col gap-4 sm:gap-5 justify-center"
               >
-                {(active.stats || FALLBACK_DATA.stats).slice(0, 3).map((stat, i) => (
+                {(active.stats || []).slice(0, 3).map((stat, i) => (
                   <motion.div
                     key={i}
                     variants={staggerItem}
@@ -439,7 +276,7 @@ export default function Home() {
             viewport={defaultViewport}
             className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8"
           >
-            {(active.trustCards || FALLBACK_DATA.trustCards).map((item, idx) => (
+            {(active.trustCards || []).map((item, idx) => (
               <motion.div
                 key={idx}
                 variants={zoomIn}
@@ -481,7 +318,7 @@ export default function Home() {
               >
                 <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white group">
                   <img
-                    src={active.aboutPreview?.image || FALLBACK_DATA.aboutPreview.image}
+                    src={active.aboutPreview?.image}
                     alt="Sandalwood Farm Estate Preview"
                     className="w-full h-[450px] sm:h-[540px] object-cover group-hover:scale-105 transition-transform duration-500"
                   />
@@ -525,7 +362,7 @@ export default function Home() {
                   <motion.a
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.98 }}
-                    href={active.aboutPreview?.btnUrl}
+                    href={normalizeLink(active.aboutPreview?.btnUrl)}
                     className="inline-flex bg-[#0F9D6D] text-white hover:bg-[#12B886] font-bold px-8 py-3.5 rounded-full text-xs shadow-md uppercase tracking-wider transition-all duration-300"
                   >
                     {active.aboutPreview?.btnText}
@@ -570,7 +407,7 @@ export default function Home() {
               viewport={defaultViewport}
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
             >
-              {(active.investmentBenefits || FALLBACK_DATA.investmentBenefits).map((item, idx) => (
+              {(active.investmentBenefits || []).map((item, idx) => (
                 <motion.div
                   key={idx}
                   variants={staggerItem}
@@ -601,7 +438,7 @@ export default function Home() {
       {/* ==========================================================
           5. FEATURED PROJECT
           ========================================================== */}
-      {active.visibility?.showFeatured && (
+      {active.visibility?.showFeatured && active.featuredProject?.title && (
         <section id="featured-project" className="py-16 sm:py-20 lg:py-24 bg-[#0F9D6D] text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#12B886]/15 rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#D9A321]/5 rounded-full blur-3xl" />
@@ -619,7 +456,7 @@ export default function Home() {
               >
                 <div className="relative rounded-[32px] overflow-hidden shadow-2xl border-4 border-white/10 group aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3]">
                   <img
-                    src={active.featuredProject?.image || FALLBACK_DATA.featuredProject.image}
+                    src={active.featuredProject?.image}
                     alt="Chandan Valley Managed Farm Plot Phase 1 Layout"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
@@ -670,7 +507,7 @@ export default function Home() {
                   <motion.a
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.98 }}
-                    href={active.featuredProject?.btnUrl}
+                    href={normalizeLink(active.featuredProject?.btnUrl)}
                     className="bg-[#D9A321] text-[#0F9D6D] hover:bg-amber-300 font-bold px-8 py-3.5 rounded-full text-center shadow-lg transition-colors duration-300 uppercase tracking-wider text-xs"
                   >
                     {active.featuredProject?.btnText}
@@ -720,7 +557,7 @@ export default function Home() {
               viewport={defaultViewport}
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"
             >
-              {(active.highlights || FALLBACK_DATA.highlights).map((item, idx) => (
+              {(active.highlights || []).map((item, idx) => (
                 <motion.div
                   key={idx}
                   variants={staggerItem}
@@ -776,7 +613,7 @@ export default function Home() {
               viewport={defaultViewport}
               className="grid grid-cols-1 md:grid-cols-4 gap-6 sm:gap-8"
             >
-              {(active.processSteps || FALLBACK_DATA.processSteps).map((step, idx) => (
+              {(active.processSteps || []).map((step, idx) => (
                 <motion.div
                   key={idx}
                   variants={staggerItem}

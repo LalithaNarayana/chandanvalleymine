@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { PageLoader } from "../../components/PageLoader";
 import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
+import { normalizeLink } from "../../lib/utils";
 import { ServiceIcon } from "../../components/ServiceIcon";
 
 // ==========================================================
@@ -90,130 +91,6 @@ const defaultViewport = {
   amount: 0.2,
 };
 
-const FALLBACK_DATA = {
-  hero: {
-    bgImage: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600&auto=format&fit=crop",
-    heading: "The Legacy of Sandalwood",
-    description: "We are committed to creating sustainable investment opportunities through professionally managed sandalwood plantations that combine nature, long-term value, and responsible growth.",
-    btnText: "Explore Projects",
-    btnUrl: "#story",
-    secondaryBtnText: "Watch Video",
-    secondaryBtnUrl: "",
-  },
-  ourStory: {
-    image: "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1200&auto=format&fit=crop",
-    smallTitle: "HERITAGE & EXCELLENCE",
-    heading: "Our Story",
-    description: "Chandan Valley Farms was founded to bridge the gap between premium land ownership and high-yielding sustainable forestry. Sandalwood has been revered for centuries as one of India's most prized natural treasures. We provide a transparent, fully-managed pathway to co-owning land that secures your financial legacy while actively restoring regional green cover.\n\nBy blending traditional farming wisdom with modern agricultural science, our expert agronomists select certified Santalum Album saplings and cultivate them alongside host trees for optimum growth. With 24/7 smart security, drip-network controls, and transparent legal packaging, your farm plot is safe and compounding in value.",
-    badgeTitle: "15+ Years",
-    badgeSubtitle: "OF AGRICULTURAL EXCELLENCE",
-  },
-  founder: {
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop",
-    quote: "At Chandan Valley Farms, we don't just plant trees; we cultivate a legacy. Our focus is on the long-term health of our soil and the enduring prosperity of our partners. We invite you to be part of an investment that lives and breathes.",
-    name: "Mr. Aditya Pardhan",
-    designation: "Founder & Managing Director",
-  },
-  coreValuesSection: {
-    title: "Our Core Values",
-  },
-  coreValues: [
-    {
-      title: "Integrity",
-      description: "We uphold absolute transparency and clarity in land titles, registry, and contracts.",
-      icon: "ShieldCheck",
-    },
-    {
-      title: "Sustainability",
-      description: "We employ eco-friendly farming practices to conserve biodiversity and soil health.",
-      icon: "Leaf",
-    },
-    {
-      title: "Excellence",
-      description: "Our botany and agronomy experts ensure unmatched quality in plantation management.",
-      icon: "Award",
-    },
-    {
-      title: "Transparency",
-      description: "Periodic digital growth updates and real-time support ensure complete peace of mind.",
-      icon: "Eye",
-    },
-  ],
-  journeySection: {
-    title: "The Journey",
-    subtitle: "SANDALWOOD OF GROWTH",
-  },
-  journeyTimeline: [
-    {
-      year: "2015",
-      title: "Inception",
-      description: "Founded with the acquisition of our first 50 acres. Laid the foundation for professional sandalwood farming.",
-      image: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=800&auto=format&fit=crop",
-    },
-    {
-      year: "2018",
-      title: "Expansion & Tech Integration",
-      description: "Expanded our plantation footprint to 150 acres and introduced automated drip irrigation systems.",
-      image: "https://images.unsplash.com/photo-1463123081488-729f99c905b4?q=80&w=800&auto=format&fit=crop",
-    },
-    {
-      year: "2021",
-      title: "Advanced Agronomy",
-      description: "Collaborated with leading forestry institutes to implement scientific host-tree management protocols.",
-      image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800&auto=format&fit=crop",
-    },
-    {
-      year: "2024",
-      title: "A Modern Legacy",
-      description: "Managing over 300+ acres of sandalwood plots, catering to a growing community of 500+ satisfied co-owners.",
-      image: "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=800&auto=format&fit=crop",
-    },
-  ],
-  whyChooseUs: {
-    smallTitle: "INVESTOR BENEFITS",
-    heading: "Why Choose Us?",
-    checklist: [
-      { title: "100% Legal Documentation", description: "Individual registration with clear title deed, RERA, and town planning compliance." },
-      { title: "Expert Plantation Management", description: "12-year end-to-end management by qualified agronomists and botanists." },
-      { title: "High ROI Potential", description: "Mysore Sandalwood offers compounding long-term tax-free agricultural returns." },
-      { title: "Eco-Friendly Investment", description: "Promoting biodiversity, local employment, and reducing the environmental footprint." },
-      { title: "Professional Maintenance", description: "24/7 security surveillance, automated Israeli drip irrigation, and fencing." },
-      { title: "Transparent Process", description: "Detailed progress tracking and periodic video/photo updates of your farm plot." },
-    ],
-    images: [
-      "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=600&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=600&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1463123081488-729f99c905b4?q=60&w=600&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=600&auto=format&fit=crop"
-    ]
-  },
-  cta: {
-    heading: "Join the Verdant Legacy",
-    description: "Book your premium sandalwood farm plot today and secure a beautiful, sustainable investment for generations.",
-    primaryBtnText: "Book Site Visit",
-  },
-  visibility: {
-    showHero: true,
-    showStory: true,
-    showMissionVision: true,
-    showFounder: true,
-    showCoreValues: true,
-    showTimeline: true,
-    showWhyChooseUs: true,
-    showCTA: true,
-  }
-};
-
-// Fallback used only for the Mission/Vision descriptions, which are sourced
-// from the Home Page CMS "Heritage & Excellence" section so admins only
-// have to maintain that copy in one place.
-const HOME_FALLBACK = {
-  aboutPreview: {
-    mission: "To engineer secure, high-yield, and professionally managed sandalwood plantations that empower our clients to build sustainable, generational wealth while driving positive ecological conservation.",
-    vision: "To establish Chandan Valley Farms as the undisputed benchmark for luxury managed agricultural investments, recognized globally for unyielding trust, botanical innovation, and environmental stewardship.",
-  },
-};
-
 export default function AboutPage() {
   const [cmsData, setCmsData] = useState(null);
   const [homeData, setHomeData] = useState(null);
@@ -243,8 +120,8 @@ export default function AboutPage() {
     loadCMS();
   }, []);
 
-  const active = cmsData || FALLBACK_DATA;
-  const activeHome = homeData || HOME_FALLBACK;
+  const active = cmsData || {};
+  const activeHome = homeData || {};
 
   if (loading) return <PageLoader />;
 
@@ -266,7 +143,7 @@ export default function AboutPage() {
               animate={{ scale: 1, opacity: 0.55 }}
               transition={{ duration: 2.5, ease: "easeOut" }}
               className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url('${active.hero?.bgImage || FALLBACK_DATA.hero.bgImage}')` }}
+              style={{ backgroundImage: `url('${active.hero?.bgImage || ""}')` }}
             />
 
             {/* Dark overlay */}
@@ -305,18 +182,10 @@ export default function AboutPage() {
                   variants={staggerItem}
                   className="flex flex-wrap items-center gap-4 pt-2"
                 >
-                  <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.98 }}
-                    href={active.hero?.btnUrl}
-                    className="bg-[#0F9D6D] text-white hover:bg-[#12B886] border border-[#D9A321]/40 px-6 sm:px-8 py-3 rounded-full font-semibold text-sm shadow-md hover:shadow-xl text-center transition-all duration-300"
-                  >
-                    {active.hero?.btnText}
-                  </motion.a>
 
                   {active.hero?.secondaryBtnText && (
                     <motion.a
-                      href={active.hero?.secondaryBtnUrl || "#"}
+                      href={normalizeLink(active.hero?.secondaryBtnUrl) || "#"}
                       target="_blank"
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.05 }}
@@ -375,7 +244,7 @@ export default function AboutPage() {
                     className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white group"
                   >
                     <img
-                      src={active.ourStory?.image || FALLBACK_DATA.ourStory.image}
+                      src={active.ourStory?.image}
                       alt="Sandalwood wood slice premium raw harvest"
                       className="w-full h-[320px] sm:h-[450px] object-cover group-hover:scale-105 transition-transform duration-500"
                     />
@@ -391,10 +260,10 @@ export default function AboutPage() {
                     className="absolute -bottom-6 -left-2 sm:-left-6 bg-white text-[#0F9D6D] p-4 sm:p-5 rounded-2xl border border-gray-100 shadow-2xl flex flex-col items-start justify-center max-w-[220px]"
                   >
                     <span className="font-playfair text-2xl sm:text-3xl font-extrabold text-[#D9A321]">
-                      {active.ourStory?.badgeTitle || FALLBACK_DATA.ourStory.badgeTitle}
+                      {active.ourStory?.badgeTitle}
                     </span>
                     <span className="text-[10px] sm:text-xs text-gray-500 uppercase tracking-wider font-semibold mt-1">
-                      {active.ourStory?.badgeSubtitle || FALLBACK_DATA.ourStory.badgeSubtitle}
+                      {active.ourStory?.badgeSubtitle}
                     </span>
                   </motion.div>
                 </div>
@@ -436,7 +305,7 @@ export default function AboutPage() {
                       Our Mission
                     </h3>
                     <p className="text-gray-300 text-sm sm:text-base leading-relaxed font-normal">
-                      {activeHome.aboutPreview?.mission || HOME_FALLBACK.aboutPreview.mission}
+                      {activeHome.aboutPreview?.mission}
                     </p>
                   </div>
                 </motion.div>
@@ -458,7 +327,7 @@ export default function AboutPage() {
                       Our Vision
                     </h3>
                     <p className="text-gray-300 text-sm sm:text-base leading-relaxed font-normal">
-                      {activeHome.aboutPreview?.vision || HOME_FALLBACK.aboutPreview.vision}
+                      {activeHome.aboutPreview?.vision}
                     </p>
                   </div>
                 </motion.div>
@@ -485,7 +354,7 @@ export default function AboutPage() {
                 >
                   <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white group">
                     <img
-                      src={active.founder?.image || FALLBACK_DATA.founder.image}
+                      src={active.founder?.image}
                       alt={`Founder ${active.founder?.name}`}
                       className="w-full h-[400px] sm:h-[500px] object-cover filter grayscale contrast-125 group-hover:scale-105 transition-transform duration-500"
                     />
@@ -540,7 +409,7 @@ export default function AboutPage() {
                 className="text-center max-w-2xl mx-auto mb-16 space-y-3"
               >
                 <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F9D6D]">
-                  {active.coreValuesSection?.title || FALLBACK_DATA.coreValuesSection.title}
+                  {active.coreValuesSection?.title}
                 </h2>
                 <div className="w-12 h-1 bg-[#D9A321] mx-auto mt-4 rounded-full" />
               </motion.div>
@@ -553,7 +422,7 @@ export default function AboutPage() {
                 viewport={defaultViewport}
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
               >
-                {(active.coreValues || FALLBACK_DATA.coreValues).map((val, idx) => (
+                {(active.coreValues || []).map((val, idx) => (
                   <motion.div
                     key={idx}
                     variants={staggerItem}
@@ -597,10 +466,10 @@ export default function AboutPage() {
                 className="text-center max-w-2xl mx-auto mb-16 sm:mb-20 space-y-3"
               >
                 <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F9D6D]">
-                  {active.journeySection?.title || FALLBACK_DATA.journeySection.title}
+                  {active.journeySection?.title}
                 </h2>
                 <p className="text-gray-500 font-medium text-xs sm:text-sm tracking-widest uppercase">
-                  {active.journeySection?.subtitle || FALLBACK_DATA.journeySection.subtitle}
+                  {active.journeySection?.subtitle}
                 </p>
                 <div className="w-12 h-1 bg-[#D9A321] mx-auto mt-4 rounded-full" />
               </motion.div>
@@ -611,7 +480,7 @@ export default function AboutPage() {
                 <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#0F9D6D]/10 via-[#D9A321]/30 to-[#0F9D6D]/10 hidden md:block" />
 
                 <div className="space-y-12 md:space-y-24 relative z-10">
-                  {(active.journeyTimeline || FALLBACK_DATA.journeyTimeline).map((milestone, idx) => {
+                  {(active.journeyTimeline || []).map((milestone, idx) => {
                     const isEven = idx % 2 === 0;
                     return (
                       <div key={idx} className="flex flex-col md:flex-row items-stretch">
@@ -688,15 +557,15 @@ export default function AboutPage() {
                 >
                   <motion.div variants={fadeUp} className="space-y-3">
                     <span className="text-xs sm:text-sm font-bold tracking-widest text-[#D9A321] uppercase block">
-                      {active.whyChooseUs?.smallTitle || FALLBACK_DATA.whyChooseUs.smallTitle}
+                      {active.whyChooseUs?.smallTitle}
                     </span>
                     <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0F9D6D] leading-tight">
-                      {active.whyChooseUs?.heading || FALLBACK_DATA.whyChooseUs.heading}
+                      {active.whyChooseUs?.heading}
                     </h2>
                   </motion.div>
 
                   <div className="space-y-6">
-                    {(active.whyChooseUs?.checklist || FALLBACK_DATA.whyChooseUs.checklist).map((item, idx) => (
+                    {(active.whyChooseUs?.checklist || []).map((item, idx) => (
                       <motion.div
                         key={idx}
                         variants={fadeLeft}
@@ -729,14 +598,14 @@ export default function AboutPage() {
                   <div className="space-y-4">
                     <div className="rounded-2xl overflow-hidden aspect-[4/5] shadow-lg group">
                       <img
-                        src={(active.whyChooseUs?.images || FALLBACK_DATA.whyChooseUs.images)[0]}
+                        src={(active.whyChooseUs?.images || [])[0]}
                         alt="Farmland close up"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
                     <div className="rounded-2xl overflow-hidden aspect-square shadow-lg group">
                       <img
-                        src={(active.whyChooseUs?.images || FALLBACK_DATA.whyChooseUs.images)[1]}
+                        src={(active.whyChooseUs?.images || [])[1]}
                         alt="Sandalwood essential oils premium sample bottles"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
@@ -745,14 +614,14 @@ export default function AboutPage() {
                   <div className="space-y-4 pt-8">
                     <div className="rounded-2xl overflow-hidden aspect-square shadow-lg group">
                       <img
-                        src={(active.whyChooseUs?.images || FALLBACK_DATA.whyChooseUs.images)[2]}
+                        src={(active.whyChooseUs?.images || [])[2]}
                         alt="Scientific botany testing"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
                     <div className="rounded-2xl overflow-hidden aspect-[4/5] shadow-lg group">
                       <img
-                        src={(active.whyChooseUs?.images || FALLBACK_DATA.whyChooseUs.images)[3]}
+                        src={(active.whyChooseUs?.images || [])[3]}
                         alt="Sandalwood young green leaves"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
@@ -796,10 +665,10 @@ export default function AboutPage() {
                     variants={scaleHover}
                     whileHover="hover"
                     whileTap="tap"
-                    href={active.cta?.primaryBtnUrl || "/contact"}
+                    href={normalizeLink(active.cta?.primaryBtnUrl) || "/contact"}
                     className="w-full sm:w-auto bg-[#F8FAF8] text-[#0F9D6D] hover:bg-[#D9A321] hover:text-[#0F9D6D] font-bold px-8 py-3.5 rounded-full text-sm shadow-md transition-colors duration-300 text-center uppercase tracking-wider"
                   >
-                    {active.cta?.primaryBtnText || FALLBACK_DATA.cta.primaryBtnText}
+                    {active.cta?.primaryBtnText}
                   </motion.a>
                 </div>
               </motion.div>

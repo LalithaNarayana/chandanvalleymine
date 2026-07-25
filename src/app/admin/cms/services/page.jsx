@@ -237,27 +237,6 @@ export default function ServicePageCMS() {
               />
             </div>
             <div className="grid grid-cols-2 gap-4 border p-4 rounded-xl bg-gray-50/30">
-              <h5 className="col-span-2 font-bold text-gray-500 uppercase">Primary Button</h5>
-              <div>
-                <label className="block font-bold text-gray-400 mb-1">Text</label>
-                <input
-                  type="text"
-                  value={pageData.hero?.primaryButton?.text || ""}
-                  onChange={(e) => setPageData({ ...pageData, hero: { ...pageData.hero, primaryButton: { ...pageData.hero.primaryButton, text: e.target.value } } })}
-                  className="w-full px-4 py-2 border rounded-xl"
-                />
-              </div>
-              <div>
-                <label className="block font-bold text-gray-400 mb-1">Link URL</label>
-                <input
-                  type="text"
-                  value={pageData.hero?.primaryButton?.url || ""}
-                  onChange={(e) => setPageData({ ...pageData, hero: { ...pageData.hero, primaryButton: { ...pageData.hero.primaryButton, url: e.target.value } } })}
-                  className="w-full px-4 py-2 border rounded-xl"
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4 border p-4 rounded-xl bg-gray-50/30">
               <h5 className="col-span-2 font-bold text-gray-500 uppercase">Secondary Button</h5>
               <div>
                 <label className="block font-bold text-gray-400 mb-1">Text</label>
@@ -810,106 +789,6 @@ export default function ServicePageCMS() {
         )}
       </div>
 
-      {/* 8. SEO ACCORDION */}
-      <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
-        <button
-          onClick={() => toggleSection("seo")}
-          className="w-full flex justify-between items-center px-6 py-4 bg-gray-50/50 font-bold text-sm text-[#0B5D38] border-b"
-        >
-          <span>8. SEO & Page Meta Settings</span>
-          <span>{openSections.seo ? "▲" : "▼"}</span>
-        </button>
-        {openSections.seo && (
-          <div className="p-6 space-y-4 text-xs">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block font-bold text-gray-500 uppercase mb-1">Meta Title</label>
-                <input
-                  type="text"
-                  value={pageData.seo?.metaTitle || ""}
-                  onChange={(e) => setPageData({ ...pageData, seo: { ...pageData.seo, metaTitle: e.target.value } })}
-                  className="w-full px-4 py-2 border rounded-xl"
-                />
-              </div>
-              <div>
-                <label className="block font-bold text-gray-500 uppercase mb-1">Canonical URL</label>
-                <input
-                  type="text"
-                  value={pageData.seo?.canonicalUrl || ""}
-                  onChange={(e) => setPageData({ ...pageData, seo: { ...pageData.seo, canonicalUrl: e.target.value } })}
-                  className="w-full px-4 py-2 border rounded-xl"
-                />
-              </div>
-              <div className="md:col-span-2">
-                <label className="block font-bold text-gray-500 uppercase mb-1">Meta Description</label>
-                <textarea
-                  value={pageData.seo?.metaDescription || ""}
-                  onChange={(e) => setPageData({ ...pageData, seo: { ...pageData.seo, metaDescription: e.target.value } })}
-                  className="w-full px-4 py-2 border rounded-xl h-16"
-                />
-              </div>
-              <div className="md:col-span-2">
-                <label className="block font-bold text-gray-500 uppercase mb-1">Keywords</label>
-                <input
-                  type="text"
-                  value={pageData.seo?.keywords || ""}
-                  onChange={(e) => setPageData({ ...pageData, seo: { ...pageData.seo, keywords: e.target.value } })}
-                  className="w-full px-4 py-2 border rounded-xl"
-                />
-              </div>
-              <div>
-                <label className="block font-bold text-gray-500 uppercase mb-1">OpenGraph Image (Contabo S3)</label>
-                <div className="flex gap-2 items-center">
-                  <input
-                    type="text"
-                    disabled
-                    value={pageData.seo?.ogImage || ""}
-                    className="w-full px-4 py-2 border rounded-xl bg-gray-50"
-                  />
-                  <input
-                    type="file"
-                    id="seoOgImage"
-                    onChange={(e) => triggerUpload(e, (url) => setPageData({ ...pageData, seo: { ...pageData.seo, ogImage: url } }))}
-                    className="hidden"
-                  />
-                  <label htmlFor="seoOgImage" className="bg-[#0B5D38] text-white px-4 py-2 rounded-xl cursor-pointer font-bold">
-                    Upload
-                  </label>
-                </div>
-              </div>
-              <div>
-                <label className="block font-bold text-gray-500 uppercase mb-1">Twitter Card Image (Contabo S3)</label>
-                <div className="flex gap-2 items-center">
-                  <input
-                    type="text"
-                    disabled
-                    value={pageData.seo?.twitterCard || ""}
-                    className="w-full px-4 py-2 border rounded-xl bg-gray-50"
-                  />
-                  <input
-                    type="file"
-                    id="seoTwitterImage"
-                    onChange={(e) => triggerUpload(e, (url) => setPageData({ ...pageData, seo: { ...pageData.seo, twitterCard: url } }))}
-                    className="hidden"
-                  />
-                  <label htmlFor="seoTwitterImage" className="bg-[#0B5D38] text-white px-4 py-2 rounded-xl cursor-pointer font-bold">
-                    Upload
-                  </label>
-                </div>
-              </div>
-              <div className="md:col-span-2">
-                <label className="block font-bold text-gray-500 uppercase mb-1">Schema Markup (JSON-LD)</label>
-                <textarea
-                  value={pageData.seo?.schemaMarkup || ""}
-                  onChange={(e) => setPageData({ ...pageData, seo: { ...pageData.seo, schemaMarkup: e.target.value } })}
-                  className="w-full px-4 py-2 border rounded-xl h-24 font-mono"
-                  placeholder='{ "@context": "https://schema.org", ... }'
-                />
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
     </div>
   );
 }
