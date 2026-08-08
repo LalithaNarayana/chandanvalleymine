@@ -473,9 +473,6 @@ export default function Home() {
                 className="lg:col-span-6 space-y-6"
               >
                 <div className="space-y-3">
-                  <span className="inline-flex px-3 py-1 rounded-full bg-[#D9A321]/20 text-[#D9A321] text-xs font-bold uppercase tracking-wider">
-                    Featured Project
-                  </span>
                   <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
                     {active.featuredProject?.title}
                   </h2>
